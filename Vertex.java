@@ -1,12 +1,30 @@
 import java.util.Iterator;
 
-public class Vertex implements VertexInterface<T>{
+public class Vertex<T> implements VertexInterface<T>{
+
+    T label;
+    boolean visited;
+    VertexInterface<T> previousVertex;
+    double cost;
+    List<Edge> edgeList; //TODO Edge class??
+
+    /**
+     * Constructor.
+     * @param vertexLabel label of the vertex
+     */
+    Vertex(T vertexLabel) {
+        label = vertexLabel;
+        visited = false;
+        previousVertex = null;
+        //TODO: edgeList needs to be initialized to a default list?
+    }
+
     /**
      * @return vertex's label.
      */
     @Override
     public T getLabel() {
-        return null;
+        return label;
     }
 
     /**
@@ -22,7 +40,7 @@ public class Vertex implements VertexInterface<T>{
      */
     @Override
     public void visit() {
-
+        visited = true;
     }
 
     /**
@@ -30,7 +48,7 @@ public class Vertex implements VertexInterface<T>{
      */
     @Override
     public void unvisit() {
-
+        visited = false;
     }
 
     /**
@@ -38,7 +56,7 @@ public class Vertex implements VertexInterface<T>{
      */
     @Override
     public boolean isVisited() {
-        return false;
+        return visited;
     }
 
     /**
