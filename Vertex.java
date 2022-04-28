@@ -1,6 +1,5 @@
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 
 public class Vertex<T> implements VertexInterface<T>{
 
@@ -25,6 +24,10 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     List<Edge> edgeList; //TODO Edge class??
 
+
+    /*--------------------------------------------------------------------------
+    Private class: Edge
+     -------------------------------------------------------------------------*/
     //TODO Create inner class: Edge. We can use the example from the textbook.
     private class Edge {
         VertexInterface<T> endVertex;
@@ -66,6 +69,10 @@ public class Vertex<T> implements VertexInterface<T>{
         }
     }
 
+
+    /*----------------------------------------------------------------------
+    Constructor:
+     ---------------------------------------------------------------------*/
     /**
      * Constructor.
      * @param vertexLabel label of the vertex
@@ -75,13 +82,12 @@ public class Vertex<T> implements VertexInterface<T>{
         visited = false;
         previousVertex = null;
         //TODO: edgeList needs to be initialized to a default list?
-        edgeList = new ArrayList<>();
+        edgeList = new LinkedList<>();
     }
 
     /**
      * @return vertex's label.
      */
-    @Override
     public T getLabel() {
         return label;
     }
@@ -89,7 +95,6 @@ public class Vertex<T> implements VertexInterface<T>{
     /**
      * @return number of neighbors of this vertex.
      */
-    @Override
     public int getNumberOfNeighbors() {
         return edgeList.size(); //TODO this won't work
     }
@@ -97,7 +102,6 @@ public class Vertex<T> implements VertexInterface<T>{
     /**
      * marks vertex as visited.
      */
-    @Override
     public void visit() {
         visited = true;
     }
@@ -105,7 +109,6 @@ public class Vertex<T> implements VertexInterface<T>{
     /**
      * removes vertex's visited mark.
      */
-    @Override
     public void unvisit() {
         visited = false;
     }
@@ -113,7 +116,6 @@ public class Vertex<T> implements VertexInterface<T>{
     /**
      * @return true if vertex is visited, false otherwise.
      */
-    @Override
     public boolean isVisited() {
         return visited;
     }
@@ -126,7 +128,6 @@ public class Vertex<T> implements VertexInterface<T>{
      * @param edgeWeight weight of the edge.
      * @return true if the connection is successful.
      */
-    @Override
     public boolean connect(VertexInterface<T> endVertex, double edgeWeight) {
         Edge newEdge = new Edge(endVertex, edgeWeight);
         if (!edgeList.contains(newEdge) || endVertex.getLabel() != label) {
@@ -142,7 +143,6 @@ public class Vertex<T> implements VertexInterface<T>{
      * @param endVertex vertex that is getting connected.
      * @return true if the connection is successful.
      */
-    @Override
     public boolean connect(VertexInterface<T> endVertex) {
         Edge newEdge = new Edge(endVertex);
         if (!edgeList.contains(newEdge) || endVertex.getLabel() != label) {
@@ -160,7 +160,6 @@ public class Vertex<T> implements VertexInterface<T>{
      * @param edgeWeight weight of the edge we're disconnecting.
      * @return true if the disconnection is successful.
      */
-    @Override
     public boolean disconnect(VertexInterface<T> endVertex, double edgeWeight) {
         for (int i = 0; i < edgeList.size(); ++i) {
             Edge currentEdge = edgeList.get(i);
@@ -178,7 +177,6 @@ public class Vertex<T> implements VertexInterface<T>{
      * @param endVertex vertex we're disconnecting from.
      * @return true if disconnection is successful.
      */
-    @Override
     public boolean disconnect(VertexInterface<T> endVertex) {
         for (int i = 0; i < edgeList.size(); ++i) {
             Edge currentEdge = edgeList.get(i);
@@ -190,26 +188,123 @@ public class Vertex<T> implements VertexInterface<T>{
         return false;
     }
 
+    /*---------------------------------------------------------------------------------
+    NeighborIterator:
+    ---------------------------------------------------------------------------------*/
     /**
      * creates an iterator of this vertex's neighbors by following all
      * edges that begin at this vertex.
      *
      * @return iterator.
      */
-    @Override
     public Iterator<VertexInterface<T>> getNeighborIterator() {
-
+        return new NeighborIterator();
     }
 
+
+    /**
+     * Private class NeighborIterator, for use in getNeighborIterator.
+     */
+    private class NeighborIterator implements Iterator<VertexInterface<T>> {
+
+        /**
+         * Iterator over edgeList.
+         */
+        private Iterator<Edge> edgeIterator;
+
+        /**
+         * Constructor.
+         */
+        private NeighborIterator() {
+            edgeIterator = edgeList.listIterator();
+        }
+
+        /**
+         * Returns true if there are more elements in the list.
+         * @return true if there are more elements in the list.
+         */
+        public boolean hasNext() {
+            return edgeIterator.hasNext();
+        }
+
+        /**
+         * Returns next vertex in the list; NOT the edge!
+         * @return next vertex stored in edgeList.
+         */
+        public VertexInterface<T> next() {
+            try {
+                return edgeIterator.next().getEndVertex();
+            } catch (NoSuchElementException e) {
+                throw e;
+            }
+        }
+
+        /**
+         * Not implemented.
+         * @throws UnsupportedOperationException.
+         */
+        public void remove() {
+            Iterator.super.remove();
+        }
+    }
+
+    /*------------------------------------------------------------------------
+    WeightIterator:
+     -----------------------------------------------------------------------*/
     /**
      * creates an iterator of the weights of the edges this vertex's neighbors
      * by following all edges that begin at this vertex.
      *
      * @return iterator.
      */
-    @Override
     public Iterator<Double> getWeightIterator() {
-        //this is supposed to be O(n), not sure how it's supposed to work
+        return new WeightIterator();
+    }
+
+    /**
+     * Private class WeightIterator, for use in getWeightIterator.
+     */
+    private class WeightIterator implements Iterator<Double> {
+
+        /**
+         * Iterator over edgeList.
+         */
+        private Iterator<Edge> edgeIterator;
+
+        /**
+         * Constructor.
+         */
+        private WeightIterator() {
+            edgeIterator = edgeList.listIterator();
+        }
+
+        /**
+         * Returns true if there are more elements in the list.
+         * @return true if there are more elements in the list.
+         */
+        public boolean hasNext() {
+            return edgeIterator.hasNext();
+        }
+
+        /**
+         * Returns weight of next edge in list.
+         * @return double, weight of edge.
+         */
+        public Double next() {
+            try {
+                return edgeIterator.next().getWeight();
+            } catch (NoSuchElementException e) {
+                throw e;
+            }
+        }
+
+        /**
+         * Not implemented.
+         * @throws UnsupportedOperationException.
+         */
+        public void remove() {
+            Iterator.super.remove();
+        }
     }
 
     /**
