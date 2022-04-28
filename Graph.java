@@ -1,8 +1,16 @@
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
-public class Graph implements GraphInterface<T>{
+public class Graph<T> implements GraphInterface<T>{
+
+    Map<T, Vertex<T>> vertices;
+
+    Graph() {
+        //idk man, i really don't think much has to happen here
+        vertices = new HashMap<>();
+    }
+
+
+
     /**
      * Adds given vertex to this graph.
      *
@@ -11,7 +19,12 @@ public class Graph implements GraphInterface<T>{
      */
     @Override
     public boolean addVertex(T vertexLabel) {
-        return false;
+        try {
+            vertices.put(vertexLabel, new Vertex<>(vertexLabel));
+            return true;
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
     /**

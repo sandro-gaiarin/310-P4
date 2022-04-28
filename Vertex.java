@@ -1,12 +1,70 @@
 import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Vertex<T> implements VertexInterface<T>{
 
+    /**
+     * label of the vertex.
+     */
     T label;
+    /**
+     * stores if the vertex has been visited or not.
+     */
     boolean visited;
+    /**
+     * the previous vertex on the path to this vertex.
+     */
     VertexInterface<T> previousVertex;
+    /**
+     * cost of the path to this vertex.
+     */
     double cost;
+    /**
+     * list of edges to neighbors.
+     */
     List<Edge> edgeList; //TODO Edge class??
+
+    //TODO Create inner class: Edge. We can use the example from the textbook.
+    private class Edge {
+        VertexInterface<T> endVertex;
+        double weight;
+
+        /**
+         * Constructor, no weight parameter.
+         * @param vertex endVertex.
+         */
+        Edge(VertexInterface<T> vertex) {
+            endVertex = vertex;
+            weight = 0; //no weight provided in this constructor
+        }
+
+        /**
+         * Constructor with a weighted edge.
+         * @param vertex  endVertex.
+         * @param weight weight of edge.
+         */
+        Edge(VertexInterface<T> vertex, double weight) {
+            endVertex = vertex;
+            this.weight = weight;
+        }
+
+        /**
+         * Getter for the end vertex.
+         * @return endVertex.
+         */
+        VertexInterface<T> getEndVertex() {
+            return endVertex;
+        }
+
+        /**
+         * Getter for weight.
+         * @return weight.
+         */
+        double getWeight() {
+            return weight;
+        }
+    }
 
     /**
      * Constructor.
@@ -17,6 +75,7 @@ public class Vertex<T> implements VertexInterface<T>{
         visited = false;
         previousVertex = null;
         //TODO: edgeList needs to be initialized to a default list?
+        edgeList = new ArrayList<>();
     }
 
     /**
@@ -32,7 +91,7 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public int getNumberOfNeighbors() {
-        return 0;
+        return edgeList.size(); //TODO this won't work
     }
 
     /**
@@ -69,6 +128,11 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public boolean connect(VertexInterface<T> endVertex, double edgeWeight) {
+        Edge newEdge = new Edge(endVertex, edgeWeight);
+        if (!edgeList.contains(newEdge) || endVertex.getLabel() != label) {
+            edgeList.add(newEdge);
+            return true;
+        }
         return false;
     }
 
@@ -80,6 +144,11 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public boolean connect(VertexInterface<T> endVertex) {
+        Edge newEdge = new Edge(endVertex);
+        if (!edgeList.contains(newEdge) || endVertex.getLabel() != label) {
+            edgeList.add(newEdge);
+            return true;
+        }
         return false;
     }
 
@@ -93,6 +162,13 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public boolean disconnect(VertexInterface<T> endVertex, double edgeWeight) {
+        for (int i = 0; i < edgeList.size(); ++i) {
+            Edge currentEdge = edgeList.get(i);
+            if (currentEdge.getEndVertex() == endVertex && currentEdge.getWeight() == edgeWeight) {
+                edgeList.remove(i);
+                return true;
+            }
+        }
         return false;
     }
 
@@ -104,6 +180,13 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public boolean disconnect(VertexInterface<T> endVertex) {
+        for (int i = 0; i < edgeList.size(); ++i) {
+            Edge currentEdge = edgeList.get(i);
+            if (currentEdge.getEndVertex() == endVertex) {
+                edgeList.remove(i);
+                return true;
+            }
+        }
         return false;
     }
 
@@ -115,7 +198,7 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public Iterator<VertexInterface<T>> getNeighborIterator() {
-        return null;
+
     }
 
     /**
@@ -126,7 +209,7 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public Iterator<Double> getWeightIterator() {
-        return null;
+        //this is supposed to be O(n), not sure how it's supposed to work
     }
 
     /**
@@ -134,7 +217,7 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public boolean hasNeighbor() {
-        return false;
+
     }
 
     /**
@@ -142,7 +225,7 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public VertexInterface<T> getUnvisitedNeighbor() {
-        return null;
+
     }
 
     /**
@@ -160,7 +243,7 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public VertexInterface<T> getPredecessor() {
-        return null;
+
     }
 
     /**
@@ -168,7 +251,7 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public boolean hasPredecessor() {
-        return false;
+
     }
 
     /**
@@ -178,7 +261,7 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public void setCost(double newCost) {
-
+        cost = newCost;
     }
 
     /**
@@ -186,6 +269,6 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public double getCost() {
-        return 0;
+        return cost;
     }
 }
