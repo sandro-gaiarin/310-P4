@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.*;
 
 
@@ -82,7 +83,7 @@ public class Vertex<T> implements VertexInterface<T>{
         visited = false;
         previousVertex = null;
         //TODO: edgeList needs to be initialized to a default list?
-        edgeList = new LinkedList<>();
+        edgeList = new ArrayList<>();
     }
 
     /**
@@ -310,9 +311,11 @@ public class Vertex<T> implements VertexInterface<T>{
     /**
      * @return true if this vertex has at least one neighbor.
      */
-    @Override
     public boolean hasNeighbor() {
-
+        if (edgeList.size() > 0) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -320,7 +323,14 @@ public class Vertex<T> implements VertexInterface<T>{
      */
     @Override
     public VertexInterface<T> getUnvisitedNeighbor() {
-
+        //Iterator<VertexInterface<T>> nIterator = getNeighborIterator();
+        for (int i = 0; i < edgeList.size(); ++i) {
+            VertexInterface<T> currentVertex = edgeList.get(i).getEndVertex();
+            if (!currentVertex.isVisited()) {
+                return currentVertex;
+            }
+        }
+        return null; //return null if all neighbors have been visited
     }
 
     /**
@@ -328,25 +338,25 @@ public class Vertex<T> implements VertexInterface<T>{
      *
      * @param predecessor previous vertex.
      */
-    @Override
     public void setPredecessor(VertexInterface<T> predecessor) {
-
+        previousVertex = predecessor;
     }
 
     /**
      * @return recorded predecessor of this vertex.
      */
-    @Override
     public VertexInterface<T> getPredecessor() {
-
+        return previousVertex;
     }
 
     /**
      * @return true if a predecessor was recorded for this vertex.
      */
-    @Override
     public boolean hasPredecessor() {
-
+        if (previousVertex != null) {
+            return true;
+        }
+        return false;
     }
 
     /**
