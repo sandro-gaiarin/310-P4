@@ -242,7 +242,7 @@ public class Vertex<T> implements VertexInterface<T>{
 
         /**
          * Not implemented.
-         * @throws UnsupportedOperationException.
+         * @throws UnsupportedOperationException
          */
         public void remove() {
             Iterator.super.remove();
@@ -301,7 +301,7 @@ public class Vertex<T> implements VertexInterface<T>{
 
         /**
          * Not implemented.
-         * @throws UnsupportedOperationException.
+         * @throws UnsupportedOperationException
          */
         public void remove() {
             Iterator.super.remove();

@@ -2,11 +2,23 @@ import java.util.*;
 
 public class Graph<T> implements GraphInterface<T>{
 
+    /**
+     * HashMap of the vertices in this graph.
+     */
     Map<T, Vertex<T>> vertices;
 
+    /**
+     * Counts edges up as they get added.
+     */
+    int edgeCount;
+
+    /**
+     * Constructor.
+     */
     Graph() {
         //idk man, i really don't think much has to happen here
         vertices = new HashMap<>();
+        edgeCount = 0;
     }
 
 
@@ -17,7 +29,6 @@ public class Graph<T> implements GraphInterface<T>{
      * @param vertexLabel vertex to be added.
      * @return false if vertexLabel is null.
      */
-    @Override
     public boolean addVertex(T vertexLabel) {
         try {
             vertices.put(vertexLabel, new Vertex<>(vertexLabel));
@@ -33,9 +44,10 @@ public class Graph<T> implements GraphInterface<T>{
      * @param vertexLabel Removes vertex with this vertexLabel.
      * @return the removed vertex, or none if it doesn't exist.
      */
-    @Override
     public VertexInterface<T> removeVertex(T vertexLabel) {
-        return null;
+        VertexInterface<T> returnVertex = vertices.get(vertexLabel);
+        vertices.remove(vertexLabel);
+        return returnVertex;
     }
 
     /**
@@ -46,9 +58,14 @@ public class Graph<T> implements GraphInterface<T>{
      * @param edgeWeight Weight of edge.
      * @return true if add is successful.
      */
-    @Override
     public boolean addEdge(T begin, T end, double edgeWeight) {
-        return false;
+        try {
+            vertices.get(begin).connect(vertices.get(end), edgeWeight);
+            edgeCount += 1; //increase count of edges
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -58,9 +75,14 @@ public class Graph<T> implements GraphInterface<T>{
      * @param end   last vertex.
      * @return true if add is successful.
      */
-    @Override
     public boolean addEdge(T begin, T end) {
-        return false;
+        try {
+            vertices.get(begin).connect(vertices.get(end));
+            edgeCount += 1; //increase count of edges
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -71,9 +93,13 @@ public class Graph<T> implements GraphInterface<T>{
      * @param edgeWeight weight of edge.
      * @return true if removal is successful, false otherwise.
      */
-    @Override
     public boolean removeEdge(T begin, T end, double edgeWeight) {
-        return false;
+        try {
+            vertices.get(begin).disconnect(vertices.get(end), edgeWeight);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -83,61 +109,69 @@ public class Graph<T> implements GraphInterface<T>{
      * @param end   last vertex.
      * @return true if removal is successful.
      */
-    @Override
     public boolean removeEdge(T begin, T end) {
-        return false;
+        try {
+            vertices.get(begin).connect(vertices.get(end));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
-     * Checkes if an undirected edge exists between two vertices.
+     * Checks if an undirected edge exists between two vertices.
      *
      * @param begin first vertex.
      * @param end   last vertex.
      * @return true if edge exists.
      */
-    @Override
     public boolean hasEdge(T begin, T end) {
+        VertexInterface<T> firstVertex = vertices.get(begin);
+        Iterator<VertexInterface<T>> nIterator = firstVertex.getNeighborIterator();
+        while (nIterator.hasNext()) {
+            if (nIterator.next().getLabel() == end) {
+                return true;
+            }
+        }
         return false;
     }
 
     /**
      * @return number of vertices in this graph.
      */
-    @Override
     public int getNumberOfVertices() {
-        return 0;
+        return vertices.size();
     }
 
     /**
      * @return number of edges in this graph.
      */
-    @Override
     public int getNumberOfEdges() {
-        return 0;
+        return edgeCount;
     }
 
     /**
      * @return true if the graph is empty.
      */
-    @Override
     public boolean isEmpty() {
-        return false;
+        return (0 == vertices.size()); //returns true if there are no key-value mappings
     }
 
     /**
      * @return list of all vertices in graph.
      */
-    @Override
     public List<VertexInterface<T>> getVertices() {
-        return null;
+        ArrayList<VertexInterface<T>> returnArray = new ArrayList<>();
+        vertices.forEach((key, value) -> returnArray.add(value)); //haven't actually used forEach before, hope I did it right
+        return returnArray;
     }
 
     /**
      * clears the graph.
      */
-    @Override
     public void clear() {
-
+        vertices.clear();
+        edgeCount = 0; //reset edgeCount!!
     }
 
     /**
