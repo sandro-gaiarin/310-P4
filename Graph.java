@@ -180,8 +180,7 @@ public class Graph<T> implements GraphInterface<T>{
      * @param origin where the search begins.
      * @return queue that contains the result.
      */
-    @Override
-    public Queue<T> getBreadthFirstTraversal(T origin) { //TODO
+    public Queue<T> getBreadthFirstTraversal(T origin) {
         Queue<T> returnQueue = new LinkedList<>();
         Queue<VertexInterface<T>> toCheckQueue = new LinkedList<>();
         VertexInterface<T> rootVertex = vertices.get(origin); //first vertex we check
@@ -198,6 +197,7 @@ public class Graph<T> implements GraphInterface<T>{
                 returnQueue.add(neighborVertex.getLabel()); //add it to the queue we'll return
             }
         }
+        returnQueue.forEach((label) -> vertices.get(label).unvisit()); //mark all the vertices as unvisited again!!
         return returnQueue;
         // I ended up making this generic to VertexInterface because a lot of the Vertex class is generic.
     }
@@ -205,11 +205,34 @@ public class Graph<T> implements GraphInterface<T>{
     /**
      * @param origin      first vertex.
      * @param destination destination vertex.
-     * @param path        ???
+     * @param path        An empty stack, to be filled with the labels of vertices in the path to the destination.
      * @return shortest distance between origin and destination, if it exists (otherwise, returns max int).
      */
-    @Override
-    public int getShortestPath(T origin, T destination, Stack<T> path) { //TODO
-        return 0;
+    public int getShortestPath(T origin, T destination, Stack<T> path) {
+        VertexInterface<T> vertexStart = vertices.get(origin);
+        vertexStart.visit();
+        path.push(origin);
+        while (!path.isEmpty()) {
+            VertexInterface<T> stackTop = vertices.get(path.peek()); //current top vertex on the stack
+            if (stackTop.getLabel() != destination) { //if top of stack is not destination...
+                if (stackTop.getUnvisitedNeighbor() != null) { //if top of stack still has unvisited neighbors...
+                    path.push(stackTop.getUnvisitedNeighbor().getLabel()); //add the neighbor to the stack
+                    stackTop.getUnvisitedNeighbor().visit(); //mark the neighbor as visited
+                }
+                else { //if the top of the stack has no unvisited neighbors
+                    path.pop(); //remove it from the stack
+                }
+            }
+            else { //else, we have reached the destination.
+                int returnInt = 0;
+                while (!path.isEmpty()) { //count up on return int for each stack value popped out
+                    path.pop();
+                    returnInt += 1;
+                }
+                return returnInt;
+            }
+
+        }
+        return Integer.MAX_VALUE; //return max value if there is no path!
     }
 }
