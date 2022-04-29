@@ -183,6 +183,23 @@ public class Graph<T> implements GraphInterface<T>{
     @Override
     public Queue<T> getBreadthFirstTraversal(T origin) { //TODO
         Queue<T> returnQueue = new LinkedList<>();
+        Queue<VertexInterface<T>> toCheckQueue = new LinkedList<>();
+        VertexInterface<T> rootVertex = vertices.get(origin); //first vertex we check
+        returnQueue.add(rootVertex.getLabel()); //add the label of the vertex to the linked list
+        rootVertex.visit(); //mark root as visited
+        toCheckQueue.add(rootVertex); //add root to check queue
+
+        while (toCheckQueue.size() > 0) {
+            VertexInterface<T> checkingVertex = toCheckQueue.poll(); //pull next guy from the check queue
+            while (checkingVertex.getUnvisitedNeighbor() != null) { //if getUnivisitedNeighbor is returning something, then we have more vertexes to visit
+                VertexInterface<T> neighborVertex = checkingVertex.getUnvisitedNeighbor(); //get the vertex that getUnvisited is returning
+                neighborVertex.visit(); //mark it as visited
+                toCheckQueue.add(neighborVertex); //add it to the "to check queue"
+                returnQueue.add(neighborVertex.getLabel()); //add it to the queue we'll return
+            }
+        }
+        return returnQueue;
+        // I ended up making this generic to VertexInterface because a lot of the Vertex class is generic.
     }
 
     /**
