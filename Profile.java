@@ -103,8 +103,7 @@ public class Profile {
          */
         System.out.println(this);
         friendProfiles.forEach((profile) -> System.out.println(profile));
-        //TODO: The above will end up looping around and around because people are friends with each other. Fix!!
-        // Might be able to with a list or queue or stack? Place profiles that have been written down into an available stack?
+        //TODO: Test, but this might actually work
     }
 
     /**

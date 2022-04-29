@@ -321,7 +321,6 @@ public class Vertex<T> implements VertexInterface<T>{
     /**
      * @return an unvisited neighbor, if any, of this vertex.
      */
-    @Override
     public VertexInterface<T> getUnvisitedNeighbor() {
         //Iterator<VertexInterface<T>> nIterator = getNeighborIterator();
         for (int i = 0; i < edgeList.size(); ++i) {

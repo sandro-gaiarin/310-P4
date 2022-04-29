@@ -182,7 +182,7 @@ public class Graph<T> implements GraphInterface<T>{
      */
     @Override
     public Queue<T> getBreadthFirstTraversal(T origin) { //TODO
-        return null;
+        Queue<T> returnQueue = new LinkedList<>();
     }
 
     /**
