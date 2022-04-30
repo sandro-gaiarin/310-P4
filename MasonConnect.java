@@ -83,9 +83,24 @@ public class MasonConnect {
      * Display each profile's information and friends, starting from startPoint profile.
      * @param startPoint first profile to display (root).
      */
-    public void traverse(Profile startPoint) { //TODO
-        startPoint.display();
-        //TODO We're gonna need more from this one. Use getBreadthFirstTraversal from graph(), I think.
+    public void traverse(Profile startPoint) {
+        ArrayList<Profile> displayedProfiles = new ArrayList<>(); //list to store displayed profiles in
+        ArrayList<Profile> undisplayedProfiles = new ArrayList<>(); //list to store undisplayed profiles in
+        startPoint.display(); //output
+        displayedProfiles.add(startPoint); //add to displayed profiles
+        startPoint.getFriendProfiles().forEach((Profile) -> undisplayedProfiles.add(Profile)); //add each friend of startPoint to undisplayedProfiles
+        while (undisplayedProfiles.size() > 0) {
+            if (displayedProfiles.contains(undisplayedProfiles.get(0))) { //if profile has already been displayed then it gets removed
+                undisplayedProfiles.remove(0);
+            }
+            else { //else, profile gets displayed, and all its neighbors are added to undisplayedProfiles
+                undisplayedProfiles.get(0).display();
+                System.out.println(); //newline after each profile displayed
+                displayedProfiles.add(undisplayedProfiles.get(0));
+                undisplayedProfiles.get(0).getFriendProfiles().forEach((Profile) -> undisplayedProfiles.add(Profile));
+                undisplayedProfiles.remove(0);
+            }
+        }
     }
 
     /**
