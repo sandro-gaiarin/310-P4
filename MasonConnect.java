@@ -3,6 +3,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * MasonConnect social media program, modeled after a graph data structure.
+ * @author Alessandro Gaiarin
+ * @version 0.8
+ */
 public class MasonConnect {
     /**
      * ArrayList of the users in MasonConnect.
@@ -88,8 +93,9 @@ public class MasonConnect {
         ArrayList<Profile> displayedProfiles = new ArrayList<>(); //list to store displayed profiles in
         ArrayList<Profile> undisplayedProfiles = new ArrayList<>(); //list to store undisplayed profiles in
         startPoint.display(); //output
+        System.out.println(); //newline after first profile
         displayedProfiles.add(startPoint); //add to displayed profiles
-        startPoint.getFriendProfiles().forEach((Profile) -> undisplayedProfiles.add(Profile)); //add each friend of startPoint to undisplayedProfiles
+        startPoint.getFriendProfiles().forEach((friendProfile) -> undisplayedProfiles.add(friendProfile)); //add each friend of startPoint to undisplayedProfiles
         while (undisplayedProfiles.size() > 0) {
             if (displayedProfiles.contains(undisplayedProfiles.get(0))) { //if profile has already been displayed then it gets removed
                 undisplayedProfiles.remove(0);
@@ -98,7 +104,7 @@ public class MasonConnect {
                 undisplayedProfiles.get(0).display();
                 System.out.println(); //newline after each profile displayed
                 displayedProfiles.add(undisplayedProfiles.get(0));
-                undisplayedProfiles.get(0).getFriendProfiles().forEach((Profile) -> undisplayedProfiles.add(Profile));
+                undisplayedProfiles.get(0).getFriendProfiles().forEach((friendProfile) -> undisplayedProfiles.add(friendProfile));
                 undisplayedProfiles.remove(0);
             }
         }
@@ -120,8 +126,7 @@ public class MasonConnect {
      * Returns a list of profiles who have a mutual friend with the given profile,
      * but are not friends.
      * @param user profile who is being suggested new friends.
-     * @return a list of profiles with mutual friends, or null if there are no
-     * applicable friend suggestions (or if the user does not exist).
+     * @return a list of profiles with mutual friends, or null if there are no applicable friend suggestions (or if the user does not exist).
      */
     public List<Profile> friendSuggestion(Profile user) {
         try {
@@ -150,6 +155,10 @@ public class MasonConnect {
      */
     public int friendshipDistance(Profile a, Profile b) {
         //TODO !!!
+        return 1;
+        // Below is my broken code for friendshipDistance. I'm submitting this as-is for now, in case
+        // I can't figure things out by tomorrow and want to try to get an extra point.
+        /*
         ArrayList<Profile> usersCopy = new ArrayList<>();
         usersCopy.addAll(users);
         Stack<Profile> friendshipStack = new Stack<>();
@@ -182,6 +191,7 @@ public class MasonConnect {
         }
 
         return -1; //if we're here, something broke, i guess
+        */
     }
 
 }

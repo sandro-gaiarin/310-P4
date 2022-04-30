@@ -1,8 +1,14 @@
 import java.io.PrintWriter;
 import java.util.*;
 
-
-public class Vertex<T> implements VertexInterface<T>{
+/**
+ * Generic vertex data structure, implements VertexInterface.
+ * To be used with Graph.java.
+ * @param <T> generic parameter.
+ * @author Alessandro Gaiarin
+ * @version 0.9
+ */
+public class Vertex<T> implements VertexInterface<T> {
 
     /**
      * label of the vertex.
@@ -30,8 +36,18 @@ public class Vertex<T> implements VertexInterface<T>{
     Private class: Edge
      -------------------------------------------------------------------------*/
     //TODO Create inner class: Edge. We can use the example from the textbook.
+
+    /**
+     * Private class, defines an edge.
+     */
     private class Edge {
+        /**
+         * Vertex at the end of the edge.
+         */
         VertexInterface<T> endVertex;
+        /**
+         * Weight of the edge.
+         */
         double weight;
 
         /**
@@ -87,6 +103,7 @@ public class Vertex<T> implements VertexInterface<T>{
     }
 
     /**
+     * Return vertex's label.
      * @return vertex's label.
      */
     public T getLabel() {
@@ -94,6 +111,7 @@ public class Vertex<T> implements VertexInterface<T>{
     }
 
     /**
+     * Return number of neighbors of this vertex.
      * @return number of neighbors of this vertex.
      */
     public int getNumberOfNeighbors() {
@@ -115,6 +133,7 @@ public class Vertex<T> implements VertexInterface<T>{
     }
 
     /**
+     * Return true if vertex has been visited.
      * @return true if vertex is visited, false otherwise.
      */
     public boolean isVisited() {
@@ -124,7 +143,6 @@ public class Vertex<T> implements VertexInterface<T>{
     /**
      * Connects this vertex and endVertex with a weighted edge.
      * The vertices cannot be the same, and must not already have this edge between them.
-     *
      * @param endVertex  the vertex that this vertex is getting connected to.
      * @param edgeWeight weight of the edge.
      * @return true if the connection is successful.
@@ -229,7 +247,7 @@ public class Vertex<T> implements VertexInterface<T>{
         }
 
         /**
-         * Returns next vertex in the list; NOT the edge!
+         * Returns next vertex in the list; NOT the edge.
          * @return next vertex stored in edgeList.
          */
         public VertexInterface<T> next() {
@@ -240,9 +258,9 @@ public class Vertex<T> implements VertexInterface<T>{
             }
         }
 
+
         /**
          * Not implemented.
-         * @throws UnsupportedOperationException
          */
         public void remove() {
             Iterator.super.remove();
@@ -301,7 +319,6 @@ public class Vertex<T> implements VertexInterface<T>{
 
         /**
          * Not implemented.
-         * @throws UnsupportedOperationException
          */
         public void remove() {
             Iterator.super.remove();
@@ -309,6 +326,7 @@ public class Vertex<T> implements VertexInterface<T>{
     }
 
     /**
+     * Return true if this vertex has at least one neighbor.
      * @return true if this vertex has at least one neighbor.
      */
     public boolean hasNeighbor() {
@@ -319,6 +337,7 @@ public class Vertex<T> implements VertexInterface<T>{
     }
 
     /**
+     * Return an unvisited neighbor of this vertex, if one exists.
      * @return an unvisited neighbor, if any, of this vertex.
      */
     public VertexInterface<T> getUnvisitedNeighbor() {
@@ -342,6 +361,7 @@ public class Vertex<T> implements VertexInterface<T>{
     }
 
     /**
+     * Returns recorded predecessor of this vertex.
      * @return recorded predecessor of this vertex.
      */
     public VertexInterface<T> getPredecessor() {
@@ -349,6 +369,7 @@ public class Vertex<T> implements VertexInterface<T>{
     }
 
     /**
+     * Returns true if a predecessor was recorded for this vertex.
      * @return true if a predecessor was recorded for this vertex.
      */
     public boolean hasPredecessor() {
@@ -369,6 +390,7 @@ public class Vertex<T> implements VertexInterface<T>{
     }
 
     /**
+     * Returns cost of a path to this vertex.
      * @return cost of a path to this vertex.
      */
     @Override

@@ -4,11 +4,10 @@ import java.util.Stack;
 
 /**
  * Interface that represents functionalities of the graph data structure.
- *
+ * @param <T> generic parameter.
  * @author Alessandro Gaiarin
  * @version 0.1
  */
-
 public interface GraphInterface<T> {
     /**
      * Adds given vertex to this graph.
@@ -67,21 +66,25 @@ public interface GraphInterface<T> {
     boolean hasEdge(T begin, T end);
 
     /**
+     * Return number of vertices in this graph.
      * @return number of vertices in this graph.
      */
     int getNumberOfVertices();
 
     /**
+     * Return number of edges in this graph.
      * @return number of edges in this graph.
      */
     int getNumberOfEdges();
 
     /**
+     * Return true if graph is empty.
      * @return true if the graph is empty.
      */
     boolean isEmpty();
 
     /**
+     * Return a list of all vertices in this graph.
      * @return list of all vertices in graph.
      */
     List<VertexInterface<T>> getVertices();
@@ -99,10 +102,10 @@ public interface GraphInterface<T> {
     Queue<T> getBreadthFirstTraversal(T origin);
 
     /**
-     *
+     * Finds the shortest path from one vertex to another.
      * @param origin first vertex.
      * @param destination destination vertex.
-     * @param path ???
+     * @param path empty stack, to be filled.
      * @return shortest distance between origin and destination, if it exists (otherwise, returns max int).
      */
     int getShortestPath(T origin, T destination, Stack<T> path); //TODO doc comment cleanup

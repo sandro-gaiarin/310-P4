@@ -1,6 +1,12 @@
 import java.util.*;
 
-public class Graph<T> implements GraphInterface<T>{
+/**
+ * Generic graph data structure, implements GraphInterface.
+ * @param <T> generic parameter.
+ * @author Alessandro Gaiarin
+ * @version 0.9
+ */
+public class Graph<T> implements GraphInterface<T> {
 
     /**
      * HashMap of the vertices in this graph.
@@ -127,9 +133,9 @@ public class Graph<T> implements GraphInterface<T>{
      */
     public boolean hasEdge(T begin, T end) {
         VertexInterface<T> firstVertex = vertices.get(begin);
-        Iterator<VertexInterface<T>> nIterator = firstVertex.getNeighborIterator();
-        while (nIterator.hasNext()) {
-            if (nIterator.next().getLabel() == end) {
+        Iterator<VertexInterface<T>> neighIterator = firstVertex.getNeighborIterator();
+        while (neighIterator.hasNext()) {
+            if (neighIterator.next().getLabel() == end) {
                 return true;
             }
         }
@@ -137,6 +143,7 @@ public class Graph<T> implements GraphInterface<T>{
     }
 
     /**
+     * Number of vertices in graph.
      * @return number of vertices in this graph.
      */
     public int getNumberOfVertices() {
@@ -144,6 +151,7 @@ public class Graph<T> implements GraphInterface<T>{
     }
 
     /**
+     * Number of edges in this graph.
      * @return number of edges in this graph.
      */
     public int getNumberOfEdges() {
@@ -151,6 +159,7 @@ public class Graph<T> implements GraphInterface<T>{
     }
 
     /**
+     * Checks if graph is empty.
      * @return true if the graph is empty.
      */
     public boolean isEmpty() {
@@ -158,6 +167,7 @@ public class Graph<T> implements GraphInterface<T>{
     }
 
     /**
+     * Returns a list of all vertices in this graph.
      * @return list of all vertices in graph.
      */
     public List<VertexInterface<T>> getVertices() {
@@ -203,6 +213,7 @@ public class Graph<T> implements GraphInterface<T>{
     }
 
     /**
+     * Finds the shortest path from one point to another.
      * @param origin      first vertex.
      * @param destination destination vertex.
      * @param path        An empty stack, to be filled with the labels of vertices in the path to the destination.

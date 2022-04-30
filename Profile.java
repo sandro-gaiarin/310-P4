@@ -1,6 +1,11 @@
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 
+/**
+ * A class representing a user's profile in the MasonConnect social media program.
+ * @author Alessandro Gaiarin
+ * @version 0.9
+ */
 public class Profile {
     /**
      * Full name of the user.
@@ -92,20 +97,16 @@ public class Profile {
      */
     @Override
     public String toString() {
-        return ("Name: " + name + "\n\tStatus: " + status + "\n\tNumber of friend profiles: " + friendProfiles.size()); //TODO deleted newline at the end of this
+        return ("Name: " + name + "\n\tStatus: " + status + "\n\tNumber of friend profiles: " + friendProfiles.size() + "\n"); //TODO deleted newline at the end of this
     }
 
     /**
      * Displays this profile, and the friends' profiles.
      */
     public void display() {
-        /*
-        This one is going to require breadth traversal, or it'll just keep looping around and around.
-         */
-        System.out.println(this);
+        System.out.print(this);
         System.out.print("Friends:\n"); //no newline since toString() already does one
         friendProfiles.forEach((profile) -> System.out.println("\t" + profile.getName()));
-        //TODO: Test, but this might actually work
     }
 
     /**

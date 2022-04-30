@@ -1,12 +1,20 @@
 import java.util.Iterator;
 
+/**
+ * Generic interface of a vertex for a graph data structure.
+ * @param <T> generic parameter
+ * @author Alessandro Gaiarin
+ * @version 0.9
+ */
 public interface VertexInterface<T> {
     /**
+     * Getter for label.
      * @return vertex's label.
      */
     T getLabel();
 
     /**
+     * Getter for number of neighbors.
      * @return number of neighbors of this vertex.
      */
     int getNumberOfNeighbors();
@@ -22,6 +30,7 @@ public interface VertexInterface<T> {
     void unvisit();
 
     /**
+     * Returns true if vertex has been visited.
      * @return true if vertex is visited, false otherwise.
      */
     boolean isVisited();
@@ -73,11 +82,13 @@ public interface VertexInterface<T> {
     Iterator<Double> getWeightIterator();
 
     /**
+     * Returns true if this vertex has at least one neighbor.
      * @return true if this vertex has at least one neighbor.
      */
     boolean hasNeighbor();
 
     /**
+     * Returns an unvisited neighbor if one exists.
      * @return an unvisited neighbor, if any, of this vertex.
      */
     VertexInterface<T> getUnvisitedNeighbor();
@@ -89,11 +100,13 @@ public interface VertexInterface<T> {
     void setPredecessor(VertexInterface<T> predecessor);
 
     /**
+     * Returns recorded predecessor of this vertex.
      * @return recorded predecessor of this vertex.
      */
     VertexInterface<T> getPredecessor();
 
     /**
+     * Returns true if a predecessor was recorded for this vertex.
      * @return true if a predecessor was recorded for this vertex.
      */
     boolean hasPredecessor();
@@ -105,6 +118,7 @@ public interface VertexInterface<T> {
     void setCost(double newCost);
 
     /**
+     * Returns cost of a path to this vertex.
      * @return cost of a path to this vertex.
      */
     double getCost();
