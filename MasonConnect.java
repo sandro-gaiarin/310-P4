@@ -117,7 +117,22 @@ public class MasonConnect {
 
     public List<Profile> friendSuggestion(Profile user) {
         //TODO
-        return null;
+        try {
+            List<Profile> returnList = new ArrayList<>();
+            user.getFriendProfiles().forEach((mutual -> {
+                mutual.getFriendProfiles().forEach((friendProfile) -> {
+                    if (!user.getFriendProfiles().contains(friendProfile) && !returnList.contains(friendProfile) && friendProfile != user) {
+                        returnList.add(friendProfile);
+                    }
+                });
+            }));
+            if (returnList.isEmpty()) {
+                return null;
+            }
+            return returnList;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public int friendshipDistance(Profile a, Profile b) {
