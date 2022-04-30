@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 public class MasonConnect {
     /**
@@ -115,29 +116,64 @@ public class MasonConnect {
         return false;
     }
 
+    /**
+     * Returns a list of profiles who have a mutual friend with the given profile,
+     * but are not friends.
+     * @param user profile who is being suggested new friends.
+     * @return a list of profiles with mutual friends, or null if there are no
+     * applicable friend suggestions (or if the user does not exist).
+     */
     public List<Profile> friendSuggestion(Profile user) {
-        //TODO
         try {
             List<Profile> returnList = new ArrayList<>();
-            user.getFriendProfiles().forEach((mutual -> {
-                mutual.getFriendProfiles().forEach((friendProfile) -> {
+            user.getFriendProfiles().forEach((mutual -> { //i've never used forEach like this before
+                mutual.getFriendProfiles().forEach((friendProfile) -> { //it's really useful
                     if (!user.getFriendProfiles().contains(friendProfile) && !returnList.contains(friendProfile) && friendProfile != user) {
                         returnList.add(friendProfile);
                     }
                 });
             }));
-            if (returnList.isEmpty()) {
+            if (returnList.isEmpty()) { //return null if there are no applicable friends to suggest
                 return null;
             }
             return returnList;
-        } catch (Exception e) {
+        } catch (Exception e) { //return null if the user does not exist
             return null;
         }
     }
 
+    /**
+     * Returns friendship distance between two profiles, starting with 1 if they are friends.
+     * @param a first profile.
+     * @param b second profile.
+     * @return Friendship distance, or -1 if either profile is not on MasonConnect.
+     */
     public int friendshipDistance(Profile a, Profile b) {
-        //TODO
-        return 0;
+        //TODO !!!
+        ArrayList<Profile> usersCopy = new ArrayList<>();
+        usersCopy.addAll(users);
+        Stack<Profile> friendshipStack = new Stack<>();
+        ArrayList<Profile> checkedProfiles = new ArrayList<>();
+        ArrayList<Profile> toCheckProfiles = new ArrayList<>();
+        friendshipStack.push(a); //add first profile to friendship stack
+        toCheckProfiles.add(a); //add first profile to toCheck line
+        while (!toCheckProfiles.isEmpty()) {
+            Profile stackTop = friendshipStack.peek(); //current top profile on stack
+
+            if (!stackTop.getFriendProfiles().contains(b)) {
+
+            }
+            else { //else we've reached the destination
+                int returnInt = 0;
+                while (!friendshipStack.isEmpty()) {
+                    friendshipStack.pop();
+                    returnInt += 1;
+                }
+                return returnInt;
+            }
+        }
+
+        return -1; //if we're here, something broke, i guess
     }
 
 }

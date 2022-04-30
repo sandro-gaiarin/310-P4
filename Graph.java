@@ -234,5 +234,5 @@ public class Graph<T> implements GraphInterface<T>{
 
         }
         return Integer.MAX_VALUE; //return max value if there is no path!
-    }
+    } //TODO Add unvisitAll function?
 }
