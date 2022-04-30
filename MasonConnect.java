@@ -158,11 +158,19 @@ public class MasonConnect {
         friendshipStack.push(a); //add first profile to friendship stack
         toCheckProfiles.add(a); //add first profile to toCheck line
         while (!toCheckProfiles.isEmpty()) {
-            Profile stackTop = friendshipStack.peek(); //current top profile on stack
-
-            if (!stackTop.getFriendProfiles().contains(b)) {
-
+            Profile currentProfile = toCheckProfiles.remove(0);
+            int leftoverToCheckProfiles = toCheckProfiles.size();
+            if (!currentProfile.getFriendProfiles().contains(b)) {
+                toCheckProfiles.addAll(currentProfile.getFriendProfiles());
+                for (int i = 0; i < toCheckProfiles.size(); ++i) { //remove checked profiles
+                    if (checkedProfiles.contains(toCheckProfiles.get(i))) {
+                        toCheckProfiles.remove(i);
+                    }
+                }
             }
+            if (leftoverToCheckProfiles == toCheckProfiles.size())
+
+
             else { //else we've reached the destination
                 int returnInt = 0;
                 while (!friendshipStack.isEmpty()) {
